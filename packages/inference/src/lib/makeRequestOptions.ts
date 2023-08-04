@@ -92,7 +92,8 @@ export async function makeRequestOptions(
 					...otherArgs,
 					options: options && otherOptions,
 			  }),
-		credentials: includeCredentials ? "include" : "same-origin",
+		// TODO: bug with cf workers, ref: https://github.com/cloudflare/workerd/issues/902
+		...(typeof WebSocketPair === "function" ? {} : { credentials: includeCredentials ? "include" : "same-origin" }),
 	};
 
 	return { url, info };
